@@ -5,12 +5,14 @@ const userRoutes = require("./routes/userRoutes")
 const messageRoutes = require("./routes/messagesRoute")
 const app = express();
 const socket = require("socket.io")
+const path = require('path');
 
 require('dotenv').config();
 
 app.use(cors());
 app.use(express.json());
 
+app.use(express.static(path.resolve(__dirname,'build')));
 app.use("/api/auth",userRoutes);
 app.use("/api/messages",messageRoutes);
 
@@ -30,6 +32,10 @@ const io = socket(server, {
     cors:{
         origin: "http://localhost:3000",
         credential: true,
+        
+        // origin: ["https://deploy-mern-1whq.vercel.app"],
+        // methods:["POST","GET"],
+        // credential: true,
     },
 });
 
